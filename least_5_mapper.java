@@ -3,15 +3,12 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.LongWritable; 
 import org.apache.hadoop.mapreduce.Mapper; 
 
-public class top_10_Movies2_Mapper extends Mapper<Object, 
-							Text, LongWritable, Text> { 
+public class least_5_mapper extends Mapper<Object, Text, LongWritable, Text> { 
 
 	// data format => movie_name	 
 	// no_of_views (tab seperated) 
 	@Override
-	public void map(Object key, Text value, 
-	Context context) throws IOException, 
-					InterruptedException 
+	public void map(Object key, Text value, Context context) throws IOException, InterruptedException 
 	{ 
 
 		String[] tokens = value.toString().split("\t"); 
@@ -19,9 +16,8 @@ public class top_10_Movies2_Mapper extends Mapper<Object,
 		String movie_name = tokens[0]; 
 		long no_of_views = Long.parseLong(tokens[1]); 
 
-		no_of_views = (-1) * no_of_views; 
+		no_of_views = no_of_views; //remove -1, orders lowest keys
 
-		context.write(new LongWritable(no_of_views), 
-							new Text(movie_name)); 
+		context.write(new LongWritable(no_of_views), new Text(movie_name)); 
 	} 
 } 

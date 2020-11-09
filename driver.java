@@ -12,8 +12,7 @@ public class Driver {
 	public static void main(String[] args) throws Exception 
 	{ 
 		Configuration conf = new Configuration(); 
-		String[] otherArgs = new GenericOptionsParser(conf 
-							, args).getRemainingArgs(); 
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs(); 
 
 		// if less than two paths 
 		// provided will show error 

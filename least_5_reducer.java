@@ -3,26 +3,23 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.LongWritable; 
 import org.apache.hadoop.mapreduce.Reducer; 
 
-public class top_10_Movies2_Reducer extends Reducer<LongWritable, 
-									Text, LongWritable, Text> { 
+public class least_5_reducer extends Reducer<LongWritable, Text, LongWritable, Text> { 
 
 	static int count; 
 
 	@Override
-	public void setup(Context context) throws IOException, 
-									InterruptedException 
+	public void setup(Context context) throws IOException, InterruptedException 
 	{ 
 		count = 0; 
 	} 
 
 	@Override
-	public void reduce(LongWritable key, Iterable<Text> values, 
-	Context context) throws IOException, InterruptedException 
+	public void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException 
 	{ 
 
 		// key				 values 
 		//-ve of no_of_views [ movie_name ..] 
-		long no_of_views = (-1) * key.get(); 
+		long no_of_views = key.get(); //remove -1, orders lowest keys
 
 		String movie_name = null; 
 
@@ -31,8 +28,7 @@ public class top_10_Movies2_Reducer extends Reducer<LongWritable,
 			movie_name = val.toString(); 
 		} 
 
-		// we just write 10 records as output 
-		if (count < 10) 
+		if (count < 5) //least five, write 10 records
 		{ 
 			context.write(new LongWritable(no_of_views), 
 								new Text(movie_name)); 
